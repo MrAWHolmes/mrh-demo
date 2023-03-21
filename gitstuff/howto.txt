@@ -1,0 +1,11 @@
+git config credential.helper store
+git push https://github.com/MrAWHolmes/mrh-demo.git
+
+Username: < type your username >
+Password: < type your password >
+
+[several days later]
+
+git push http://example.com/repo.git
+
+[your credentials are used automatically]
