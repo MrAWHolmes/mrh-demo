@@ -1,0 +1,17 @@
++-------------neyan_mySql_readme.txt------------------+
+OSA database name:  OSA DATABSE: neyan_osa
+APP database name:  APP DATABSE: neyan_app
+-------------------------------------------------------+
+Admin Database User:
+* username : 'matthew' 
+* password : 'Evans'
+! Console login string : mysql -u matthew -p
+  >FULL rights on databse OSA DATABSE: matthew_osa 
+  >FULL rights on databse APP DATABSE: matthew_app 
+-------------------------------------------------------+
+App Database User:
+* username : 'matthewapp' 
+* password : 'M0510E'
+! Console login string : mysql -u neyanapp -p
+  >Table only rights on databse APP DATABSE: neyan_app 
+-------------------------------------------------------+
