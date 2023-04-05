@@ -1,0 +1,168 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| matthew_app        |
+| matthew_osa        |
++--------------------+
+3 rows in set (0.04 sec)
+
+ysql> show tables
+    -> ;
++-----------------------+
+| Tables_in_matthew_app |
++-----------------------+
+| groups                |
+| members               |
+| users                 |
++-----------------------+
+3 rows in set (0.00 sec)
+
+mysql> describe users;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| uid      | int(11)      | NO   | PRI | NULL    | auto_increment |
+| username | varchar(255) | NO   | UNI | NULL    |                |
+| email    | varchar(255) | NO   | UNI | NULL    |                |
+| password | varchar(255) | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from users;
++-----+----------+---------------------+----------+
+| uid | username | email               | password |
++-----+----------+---------------------+----------+
+|   1 | user1    | user1@local.org.uk  | 123      |
+|   2 | gamer1   | gamer1@local.org.uk | 123      |
+|   3 | gamer2   | gamer2@local.org    | 123      |
+|   4 | coder1   | coder1@local.org.uk | 123      |
+|   5 | coder2   | coder2@local.org    | 123      |
++-----+----------+---------------------+----------+
+5 rows in set (0.00 sec)
+
+
+mysql> describe groups;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| gid         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(255) | NO   |     | NULL    |                |
+| description | text         | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from groups;;
++-----+--------+-----------------------+
+| gid | name   | description           |
++-----+--------+-----------------------+
+|   1 | Gamers | Computer Gamers Group |
+|   2 | Coders | Computer Coders Group |
++-----+--------+-----------------------+
+2 rows in set (0.00 sec)
+
+
+mysql> describe members;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| uid   | int(11) | NO   | PRI | NULL    |       |
+| gid   | int(11) | NO   | PRI | NULL    |       |
++-------+---------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from members;
++-----+-----+
+| uid | gid |
++-----+-----+
+|   2 |   1 |
+|   3 |   1 |
+|   4 |   2 |
+|   5 |   2 |
++-----+-----+
+4 rows in set (0.00 sec)
+
+mysql> -- https://mysqlcode.com/join-multiple-tables/
+mysql> -- inner_join_users_members_groups.sql
+mysql> select * from users u
+    -> inner join members m
+    -> on u.uid = m.uid
+    -> inner join groups g
+    -> on g.gid = m.gid;
++-----+----------+---------------------+----------+-----+-----+-----+--------+-----------------------+
+| uid | username | email               | password | uid | gid | gid | name   | description           |
++-----+----------+---------------------+----------+-----+-----+-----+--------+-----------------------+
+|   2 | gamer1   | gamer1@local.org.uk | 123      |   2 |   1 |   1 | Gamers | Computer Gamers Group |
+|   3 | gamer2   | gamer2@local.org    | 123      |   3 |   1 |   1 | Gamers | Computer Gamers Group |
+|   4 | coder1   | coder1@local.org.uk | 123      |   4 |   2 |   2 | Coders | Computer Coders Group |
+|   5 | coder2   | coder2@local.org    | 123      |   5 |   2 |   2 | Coders | Computer Coders Group |
++-----+----------+---------------------+----------+-----+-----+-----+--------+-----------------------+
+4 rows in set (0.01 sec)
+
+select m.uid,username,m.gid,name from users u
+     inner join members m
+     on u.uid = m.uid
+     inner join groups g
+     on g.gid = m.gid
+WHERE u.uid=2;
+
+-- ADDING gamer1 asmember of coders
+insert into members(uid,gid)
+values (2,2);
+
+
+mysql> select * from members;
++-----+-----+
+| uid | gid |
++-----+-----+
+|   2 |   1 |
+|   3 |   1 |
+|   2 |   2 |
+|   4 |   2 |
+|   5 |   2 |
++-----+-----+
+5 rows in set (0.00 sec)
+
+
+select m.uid,username,m.gid,name from users u
+     inner join members m
+     on u.uid = m.uid
+     inner join groups g
+     on g.gid = m.gid
+WHERE u.uid=2;
+
+mysql> select m.uid,username,m.gid,name from users u
+    ->      inner join members m
+    ->      on u.uid = m.uid
+    ->      inner join groups g
+    ->      on g.gid = m.gid
+    -> WHERE u.uid=2;
++-----+----------+-----+--------+
+| uid | username | gid | name   |
++-----+----------+-----+--------+
+|   2 | gamer1   |   1 | Gamers |
+|   2 | gamer1   |   2 | Coders |
++-----+----------+-----+--------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+mysql> select * from users;
++-----+----------+---------------------+----------+
+| uid | username | email               | password |
++-----+----------+---------------------+----------+
+|   1 | user1    | user1@local.org.uk  | 123      |
+|   2 | gamer1   | gamer1@local.org.uk | 123      |
+|   3 | gamer2   | gamer2@local.org    | 123      |
+|   4 | coder1   | coder1@local.org.uk | 123      |
+|   5 | coder2   | coder2@local.org    | 123      |
++-----+----------+---------------------+----------+
+5 rows in set (0.02 sec)
+
